@@ -5,6 +5,7 @@ import { db } from "../config/firebase";
 import colors from "../styles/colors";
 import Create from "./documents/Create";
 import Delete from "./documents/Delete";
+import { FloatingAction } from "react-native-floating-action";
 
 import { FontAwesome, MaterialIcons, Entypo } from '@expo/vector-icons';
 
@@ -12,6 +13,24 @@ export default function App() {
 
     const [documents, setDocuments] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+
+    const actions = [
+        {
+            text: "PDF",
+            icon: <FontAwesome name="file-word-o" size={20} color={colors.white} />,
+            name: "btn_upload_pdf",
+            position: 1,
+            color: colors.charcoal,
+        },
+        {
+            text: "WORD",
+            icon: <FontAwesome name="file-pdf-o" size={20} color={colors.white} />,
+            name: "btn_upload_word",
+            position: 2,
+            color: colors.charcoal,
+
+        },
+    ];
 
     useEffect(() => {
         const documentsQuery = collection(db, "documents");
@@ -70,6 +89,19 @@ export default function App() {
                 renderItem={renderItem}
                 keyExtractor={(item) => item.id}
             />
+
+            <FloatingAction
+                actions={actions}
+                color={colors.chamoisee}
+                distanceToEdge={20}
+                showBackground={false}
+                iconWidth={20}
+                iconHeight={20}
+                buttonSize={60}
+                onPressItem={name => {
+                    console.log(`selected button: ${name}`);
+                }}
+            />
         </View>
     )
 }
@@ -77,7 +109,7 @@ export default function App() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        margin: 20,
+        padding: 20,
         backgroundColor: colors.white
     },
     appName: {
