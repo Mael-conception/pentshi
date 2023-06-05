@@ -1,10 +1,12 @@
 import { collection, onSnapshot } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { db } from "../config/firebase";
 import colors from "../styles/colors";
 import Create from "./documents/Create";
 import Delete from "./documents/Delete";
+
+import { FontAwesome, MaterialIcons, Entypo } from '@expo/vector-icons';
 
 export default function App() {
 
@@ -19,33 +21,49 @@ export default function App() {
             snapshot.docs.map((doc) => documentList.push({ ...doc.data(), id: doc.id }));
             setDocuments(documentList);
             setIsLoading(false);
-
-            console.log('====================================');
-            console.log(documentList);
-            console.log('====================================');
         });
 
     }, []);
 
     const renderItem = ({ item }) => (
-        <View style={styles.documentCard}>
-            <Text>{item.name}</Text>
-            <Text>{item.course}</Text>
-            <Text>{item.departement}</Text>
-            <Text>{item.faculty}</Text>
-            <Text>{item.sector}</Text>
-            <Text>{item.type}</Text>
-            <Text>{item.university}</Text>
-            <Text>{item.url}</Text>
-            <Delete id={item.id} />
+        <TouchableOpacity style={styles.documentCard}>
+            <View style={styles.documentCardIcon}>
+                <FontAwesome name="file-pdf-o" size={75} color={colors.chamoisee} />
+            </View>
+            <View style={styles.documentCardInfo}>
+                <Text style={styles.sector}>{item.sector}</Text>
+                <Text style={styles.name}>{item.name}</Text>
+                <View style={{ flexDirection: 'row' }}>
+                    <Text style={styles.course}>{item.course}</Text>
+                    <Entypo name="dot-single" size={24} color={colors.charcoal} />
+                    <Text style={styles.type}>{item.type}</Text>
+                </View>
+            </View>
+        </TouchableOpacity>
+    )
+
+    const Error = () => (
+        <View>
+            <MaterialIcons name="error-outline" size={24} color="red" />
+            <Text>Nous rencontrons un problème pour récupérer les données, veuillez réessayer ultérieurement !</Text>
         </View>
     )
 
     return (
         <View style={styles.container}>
-            <Text>Firebase test </Text>
+            <Text style={styles.appName}>Pentshi </Text>
+            <Text style={styles.appIntro}>
+                Accédez à des copies d'épreuves antérieures
+            </Text>
 
-            <Create />
+            <TextInput
+                style={styles.searchInput}
+                placeholder="Recherche"
+            />
+            {/* <Create /> */}
+
+            {isLoading && <ActivityIndicator size={50} color={colors.chamoisee} />}
+            {!isLoading && documents.length == 0 && <Error />}
 
             <FlatList
                 data={documents}
@@ -56,18 +74,64 @@ export default function App() {
     )
 }
 
-
-
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
+        margin: 20,
+        backgroundColor: colors.white
+    },
+    appName: {
+        fontSize: 35,
+        fontWeight: 'bold',
+        color: colors.charcoal
+    },
+    appIntro: {
+        fontSize: 15,
+        fontWeight: '300',
+        color: colors.gunmetal
+    },
+    searchInput: {
+        marginVertical: 20,
+        height: 50,
+        borderRadius: 20,
+        paddingHorizontal: 20,
+        backgroundColor: colors.gray
+    },
+    documentCard: {
+        flexDirection: 'row',
+        marginVertical: 5,
+        padding: 10,
+        borderColor: colors.gunmetal,
+        borderWidth: 0.4,
+        borderRadius: 10
+    },
+    documentCardIcon: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
     },
-    documentCard: {
-        margin: 10,
-        padding: 10,
-        borderColor: colors.gunmetal,
-        borderWidth: 1
+    documentCardInfo: {
+        flex: 3,
+        marginStart: 15
+    },
+    sector: {
+        fontWeight: '500',
+        color: colors.gunmetal,
+        textTransform: 'capitalize'
+    },
+    name: {
+        fontSize: 22,
+        fontWeight: 'bold',
+        color: colors.chamoisee
+    },
+    course: {
+        fontWeight: '300',
+        marginEnd: 5,
+        textTransform: 'uppercase',
+    },
+    type: {
+        fontWeight: '300',
+        marginEnd: 5,
+        textTransform: 'uppercase',
     }
 });
