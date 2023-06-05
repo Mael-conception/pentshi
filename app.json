@@ -1,0 +1,13 @@
+{
+  "expo": {
+    "name": "pentshi",
+    "slug": "pentshi",
+    "version": "0.0.1",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "android": {
+      "package": "com.maelconception.pentshi"
+    }
+  }
+}
