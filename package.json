@@ -12,6 +12,7 @@
     "expo-dev-client": "~2.0.0",
     "expo-splash-screen": "~0.17.5",
     "expo-status-bar": "~1.4.2",
+    "firebase": "^9.22.1",
     "react": "18.1.0",
     "react-native": "0.70.8",
     "react-native-get-random-values": "~1.8.0",

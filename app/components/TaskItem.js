@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   },
   description: {
     paddingHorizontal: 10,
-    color: colors.black,
+    color: colors.gunmetal,
     fontSize: 17,
   },
   status: {
@@ -47,17 +47,17 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderTopLeftRadius: 5,
     borderBottomLeftRadius: 5,
-    backgroundColor: colors.gray,
+    backgroundColor: colors.charcoal,
   },
   completed: {
-    backgroundColor: colors.purple,
+    backgroundColor: colors.chamoisee,
   },
   deleteButton: {
     justifyContent: "center",
   },
   deleteText: {
     marginHorizontal: 10,
-    color: colors.gray,
+    color: colors.charcoal,
     fontSize: 17,
   },
   icon: {
