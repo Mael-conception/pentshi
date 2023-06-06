@@ -1,15 +1,13 @@
+import firebase from 'firebase/app';
 import { collection, onSnapshot } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { db } from "../config/firebase";
 import colors from "../styles/colors";
-import Create from "./documents/Create";
-import Delete from "./documents/Delete";
 import { FloatingAction } from "react-native-floating-action";
-
 import { FontAwesome, MaterialIcons, Entypo } from '@expo/vector-icons';
 
-export default function App() {
+export default function Feed({ navigation }) {
 
     const [documents, setDocuments] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -17,15 +15,15 @@ export default function App() {
     const actions = [
         {
             text: "PDF",
-            icon: <FontAwesome name="file-word-o" size={20} color={colors.white} />,
-            name: "btn_upload_pdf",
+            icon: <FontAwesome name="file-pdf-o" size={20} color={colors.white} />,
+            name: "application/pdf",
             position: 1,
             color: colors.charcoal,
         },
         {
             text: "WORD",
-            icon: <FontAwesome name="file-pdf-o" size={20} color={colors.white} />,
-            name: "btn_upload_word",
+            icon: <FontAwesome name="file-word-o" size={20} color={colors.white} />,
+            name: "application/msword",
             position: 2,
             color: colors.charcoal,
 
@@ -79,7 +77,6 @@ export default function App() {
                 style={styles.searchInput}
                 placeholder="Recherche"
             />
-            {/* <Create /> */}
 
             {isLoading && <ActivityIndicator size={50} color={colors.chamoisee} />}
             {!isLoading && documents.length == 0 && <Error />}
@@ -100,6 +97,9 @@ export default function App() {
                 buttonSize={60}
                 onPressItem={name => {
                     console.log(`selected button: ${name}`);
+                    navigation.navigate('UploadFile', {
+                        fileType: name,
+                    })
                 }}
             />
         </View>

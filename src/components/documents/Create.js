@@ -3,8 +3,11 @@ import React, { useState } from "react";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { db } from "../../config/firebase";
 
-export default function Create() {
-    const [document, setDocument] = useState({ name: '', course: 'textCourse' });
+export default function Create({ navigation, route }) {
+    const { url } = route.params;
+    const [document, setDocument] = useState({
+        name: '', course: '', sector: '', university: ''
+    });
 
     function addDocument() {
         const documentDb = collection(db, "documents");
