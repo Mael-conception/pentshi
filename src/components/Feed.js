@@ -1,5 +1,5 @@
 import firebase from 'firebase/app';
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot, query, orderBy, } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { db } from "../config/firebase";
@@ -32,7 +32,10 @@ export default function Feed({ navigation }) {
 
     useEffect(() => {
         const documentsQuery = collection(db, "documents");
-        onSnapshot(documentsQuery, (snapshot) => {
+
+        const documentsQueryOrdered = query(documentsQuery, orderBy("name", 'desc'));
+
+        onSnapshot(documentsQueryOrdered, (snapshot) => {
             let documentList = [];
 
             snapshot.docs.map((doc) => documentList.push({ ...doc.data(), id: doc.id }));
@@ -50,7 +53,7 @@ export default function Feed({ navigation }) {
             <View style={styles.documentCardInfo}>
                 <Text style={styles.sector}>{item.sector}</Text>
                 <Text style={styles.name}>{item.name}</Text>
-                <View style={{ flexDirection: 'row' }}>
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                     <Text style={styles.course}>{item.course}</Text>
                     <Entypo name="dot-single" size={24} color={colors.charcoal} />
                     <Text style={styles.type}>{item.type}</Text>

@@ -8,7 +8,6 @@ import { getStorage, ref, uploadBytesResumable, getDownloadURL, uploadString } f
 export default function UploadFile({ navigation, route }) {
     const { fileType } = route.params;
     const [file, setFile] = useState(null);
-    const [url, setUrl] = useState(null);
     const [percent, setPercent] = useState(0);
     const [uploadInProgress, setUploadInProgress] = useState(false);
     const storage = getStorage();
@@ -39,13 +38,12 @@ export default function UploadFile({ navigation, route }) {
             (err) => console.log(err),
             () => {
                 getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-                    console.log(url);
-                    setUrl(url);
+                    console.log('url', url);
+                    setUploadInProgress(false);
+                    navigation.navigate("FileInfos", { url, fileType });
                 });
             }
         );
-        setUploadInProgress(false);
-        navigation.navigate("FileInfos", { url, fileType });
     }
 
     if (file === null) {

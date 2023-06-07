@@ -1,6 +1,6 @@
 import { collection, addDoc } from "firebase/firestore";
 import React, { useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { db } from "../../config/firebase";
 import { TextInput } from 'react-native-paper';
 import colors from "../../styles/colors";
@@ -38,59 +38,64 @@ export default function Create({ navigation, route }) {
 
     return (
         <View style={styles.container}>
-            {/* <TextInput
-                placeholder="name of file"
-                value={document.name}
-                onChangeText={(text) => setDocument({ ...document, name: text })}
-            /> */}
+            <Text style={styles.title}>Compléter les infos du document</Text>
 
             <TextInput
+                type="outlined"
                 label="nom du fichier"
                 value={document.name}
+                style={styles.inputText}
                 onChangeText={text => setDocument({ ...document, name: text })}
             />
 
             <TextInput
                 label="nom du courslogique de pro"
                 value={document.course}
+                style={styles.inputText}
                 onChangeText={text => setDocument({ ...document, course: text })}
             />
 
             <TextInput
                 label="Faculte"
                 value={document.faculty}
+                style={styles.inputText}
                 onChangeText={text => setDocument({ ...document, faculty: text })}
             />
 
             <TextInput
                 label="Departement"
                 value={document.departement}
+                style={styles.inputText}
                 onChangeText={text => setDocument({ ...document, departement: text })}
             />
-
-
 
             <TextInput
                 label="Filiere"
                 value={document.sector}
+                style={styles.inputText}
                 onChangeText={text => setDocument({ ...document, sector: text })}
             />
 
             <TextInput
                 label="universite"
                 value={document.university}
+                style={styles.inputText}
                 onChangeText={text => setDocument({ ...document, university: text })}
             />
 
             <TextInput
                 label="Type de document"
                 value={document.type}
+                style={styles.inputText}
                 onChangeText={text => setDocument({ ...document, type: text })}
             />
 
-            <Pressable onPress={addDocument}>
-                <Text>Uploader le document</Text>
-            </Pressable>
+            <TouchableOpacity
+                onPress={addDocument}
+                style={styles.actionBtn}
+            >
+                <Text style={styles.actionBtnText}>Confirmer</Text>
+            </TouchableOpacity>
         </View>
     )
 }
@@ -100,5 +105,28 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 20,
         backgroundColor: colors.white
+    },
+    title: {
+        fontSize: 20,
+        fontWeight: '700',
+        marginBottom: 20,
+        color: colors.gunmetal,
+        textAlign: 'center'
+    },
+    inputText: {
+        marginBottom: 5
+    },
+    actionBtn: {
+        backgroundColor: colors.chamoisee,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 25,
+        borderRadius: 5
+    },
+    actionBtnText: {
+        fontSize: 18,
+        fontWeight: '600',
+        color: colors.white
     },
 });
