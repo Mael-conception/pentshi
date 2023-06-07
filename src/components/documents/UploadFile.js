@@ -8,6 +8,7 @@ import { getStorage, ref, uploadBytesResumable, getDownloadURL, uploadString } f
 export default function UploadFile({ navigation, route }) {
     const { fileType } = route.params;
     const [file, setFile] = useState(null);
+    const [blob, setBlob] = useState(null);
     const [percent, setPercent] = useState(0);
     const [uploadInProgress, setUploadInProgress] = useState(false);
     const storage = getStorage();
@@ -22,19 +23,32 @@ export default function UploadFile({ navigation, route }) {
         }
     };
 
+    const getBlobFroUri = async () => {
+        const blob = await new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.onload = function () {
+                resolve(xhr.response);
+            };
+            xhr.onerror = function (e) {
+                reject(new TypeError("Network request failed"));
+            };
+            xhr.responseType = "blob";
+            xhr.open("GET", file.path, true);
+            xhr.send(null);
+        });
+
+        return blob;
+    };
+
     uploadToCloud = () => {
+
         const storageRef = ref(storage, `/documents/${file.name}`);
-        const uploadTask = uploadBytesResumable(storageRef, file.uri);
+        const uploadTask = uploadBytesResumable(storageRef, getBlobFroUri());
 
         setUploadInProgress(true);
         uploadTask.on(
             "state_changed",
-            (snapshot) => {
-                const percent = Math.round(
-                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                );
-                setPercent(percent);
-            },
+            null,
             (err) => console.log(err),
             () => {
                 getDownloadURL(uploadTask.snapshot.ref).then((url) => {

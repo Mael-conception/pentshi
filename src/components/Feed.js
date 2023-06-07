@@ -46,7 +46,12 @@ export default function Feed({ navigation }) {
     }, []);
 
     const renderItem = ({ item }) => (
-        <TouchableOpacity style={styles.documentCard}>
+        <TouchableOpacity
+            style={styles.documentCard}
+            onPress={() => {
+                navigation.navigate("FileDetails", { "document": item })
+            }}
+        >
             <View style={styles.documentCardIcon}>
                 <FontAwesome name="file-pdf-o" size={75} color={colors.chamoisee} />
             </View>
