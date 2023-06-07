@@ -74,7 +74,7 @@ export default function UploadFile({ navigation, route }) {
                     uploadInProgress ? (
                         <>
                             <ActivityIndicator size={'large'} color={colors.chamoisee} />
-                            <Text style={styles.fileName}>{percent}</Text>
+                            {/* <Text style={styles.fileName}>{percent}</Text> */}
                         </>
                     ) : (
                         <TouchableOpacity
