@@ -4,7 +4,6 @@ import * as DocumentPicker from 'expo-document-picker';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import colors from "../../styles/colors";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL, uploadString } from "firebase/storage"
-import { ProgressBar, MD3Colors } from 'react-native-paper';
 
 export default function UploadFile({ navigation, route }) {
     const { fileType } = route.params;
@@ -46,7 +45,7 @@ export default function UploadFile({ navigation, route }) {
             }
         );
         setUploadInProgress(false);
-        navigation.navigate("FileInfos", { url });
+        navigation.navigate("FileInfos", { url, fileType });
     }
 
     if (file === null) {
