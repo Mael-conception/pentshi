@@ -1,11 +1,12 @@
 import firebase from 'firebase/app';
 import { collection, onSnapshot, query, orderBy, } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, FlatList, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { db } from "../config/firebase";
 import colors from "../styles/colors";
 import { FloatingAction } from "react-native-floating-action";
 import { FontAwesome, MaterialIcons, Entypo } from '@expo/vector-icons';
+import { formatLength } from '../utils/helpers';
 
 export default function Feed({ navigation }) {
 
@@ -57,7 +58,7 @@ export default function Feed({ navigation }) {
             </View>
             <View style={styles.documentCardInfo}>
                 <Text style={styles.sector}>{item.sector}</Text>
-                <Text style={styles.name}>{item.name}</Text>
+                <Text style={styles.name}>{formatLength(item.name, 25, true)}</Text>
                 <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                     <Text style={styles.course}>{item.course}</Text>
                     <Entypo name="dot-single" size={24} color={colors.charcoal} />
@@ -76,15 +77,16 @@ export default function Feed({ navigation }) {
 
     return (
         <View style={styles.container}>
+            <StatusBar barStyle="light-content" backgroundColor={colors.chamoisee} />
             <Text style={styles.appName}>Pentshi </Text>
             <Text style={styles.appIntro}>
                 Accédez à des copies d'épreuves antérieures
             </Text>
 
-            <TextInput
+            {/* <TextInput
                 style={styles.searchInput}
                 placeholder="Recherche"
-            />
+            /> */}
 
             {isLoading && <ActivityIndicator size={50} color={colors.chamoisee} />}
             {!isLoading && documents.length == 0 && <Error />}
@@ -128,7 +130,8 @@ const styles = StyleSheet.create({
     appIntro: {
         fontSize: 15,
         fontWeight: '300',
-        color: colors.gunmetal
+        color: colors.gunmetal,
+        marginBottom: 15
     },
     searchInput: {
         marginVertical: 20,

@@ -12,20 +12,20 @@ const Stack = createNativeStackNavigator();
 function AppNavigation() {
     return (
         <NavigationContainer>
-            <Stack.Navigator>
+            <Stack.Navigator
+                screenOptions={{
+                    headerStyle: {
+                        backgroundColor: colors.chamoisee,
+                    },
+                    headerTintColor: colors.white,
+                }}
+            >
                 <Stack.Screen
                     name="Feed"
                     component={Feed}
                     options={{
                         title: 'Accueil',
                         headerShown: false,
-                        headerStyle: {
-                            backgroundColor: colors.gunmetal,
-                        },
-                        headerTintColor: '#fff',
-                        headerTitleStyle: {
-                            fontWeight: 'bold',
-                        },
                     }}
                 />
                 <Stack.Screen
@@ -33,13 +33,6 @@ function AppNavigation() {
                     component={UploadFile}
                     options={{
                         title: 'Téléverser le fichier',
-                        headerStyle: {
-                            backgroundColor: colors.gunmetal,
-                        },
-                        headerTintColor: colors.white,
-                        headerTitleStyle: {
-                            fontWeight: 'bold',
-                        },
                     }}
                 />
                 <Stack.Screen
@@ -47,13 +40,6 @@ function AppNavigation() {
                     component={Create}
                     options={{
                         title: 'Informations sur le fichier',
-                        headerStyle: {
-                            backgroundColor: colors.gunmetal,
-                        },
-                        headerTintColor: colors.white,
-                        headerTitleStyle: {
-                            fontWeight: 'bold',
-                        },
                     }}
                 />
                 <Stack.Screen
@@ -61,28 +47,14 @@ function AppNavigation() {
                     component={Show}
                     options={{
                         title: 'Détails du fichier',
-                        headerStyle: {
-                            backgroundColor: colors.gunmetal,
-                        },
-                        headerTintColor: colors.white,
-                        headerTitleStyle: {
-                            fontWeight: 'bold',
-                        },
                     }}
                 />
                 <Stack.Screen
                     name="Reader"
                     component={Reader}
-                    options={{
-                        title: 'Lecture du fichier',
-                        headerStyle: {
-                            backgroundColor: colors.gunmetal,
-                        },
-                        headerTintColor: colors.white,
-                        headerTitleStyle: {
-                            fontWeight: 'bold',
-                        },
-                    }}
+                    options={({ route }) => ({
+                        title: route.params.name,
+                    })}
                 />
             </Stack.Navigator>
         </NavigationContainer>

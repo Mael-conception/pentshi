@@ -1,28 +1,20 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StatusBar, StyleSheet, Text, View } from "react-native";
 import colors from "../styles/colors";
-import { MaterialIcons } from '@expo/vector-icons';
-import { WebView } from 'react-native-webview';
+import PDFReader from 'rn-pdf-reader-js';
 
 
 export default function Reader({ route }) {
 
     const { url } = route.params;
 
-    console.log("url", url);
-
-    const Error = () => (
-        <View>
-            <MaterialIcons name="error-outline" size={24} color="red" />
-            <Text>Nous rencontrons un problème pour récupérer les données, veuillez réessayer ultérieurement !</Text>
-        </View>
-    )
-
     return (
         <View style={styles.container}>
-            <WebView
-                style={styles.container}
-                source={{ uri: url }}
+            <StatusBar barStyle="light-content" backgroundColor={colors.chamoisee} />
+            <PDFReader
+                source={{
+                    uri: url,
+                }}
             />
         </View>
     )

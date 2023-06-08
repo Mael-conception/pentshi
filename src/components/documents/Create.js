@@ -1,9 +1,10 @@
 import { collection, addDoc } from "firebase/firestore";
 import React, { useState } from "react";
-import { Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { db } from "../../config/firebase";
 import { TextInput } from 'react-native-paper';
 import colors from "../../styles/colors";
+import { StatusBar } from "expo-status-bar";
 
 export default function Create({ navigation, route }) {
     const { url, fileType } = route.params;
@@ -38,6 +39,7 @@ export default function Create({ navigation, route }) {
 
     return (
         <View style={styles.container}>
+            <StatusBar barStyle="light-content" backgroundColor={colors.chamoisee} />
             <Text style={styles.title}>Compléter les infos du document</Text>
 
             <TextInput
