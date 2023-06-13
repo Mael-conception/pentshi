@@ -32,7 +32,7 @@ export default function Create({ navigation, route }) {
 
     const _onPressButton = () => {
         const isValid = validate({
-            course: { minlength: 3, maxlength: 25, required: true },
+            course: { minlength: 2, maxlength: 25, required: true },
             faculty: { minlength: 3, maxlength: 25, required: true },
             departement: { minlength: 3, maxlength: 25, required: true },
             sector: { minlength: 3, maxlength: 25 },
@@ -59,7 +59,7 @@ export default function Create({ navigation, route }) {
             type: type,
             url,
             fileType,
-            created_at: Date()
+            created_at: new Date()
         });
 
         navigation.navigate("Feed");

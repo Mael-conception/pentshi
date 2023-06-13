@@ -34,7 +34,7 @@ export default function Feed({ navigation }) {
     useEffect(() => {
         const documentsQuery = collection(db, "documents");
 
-        const documentsQueryOrdered = query(documentsQuery, orderBy("name", 'desc'));
+        const documentsQueryOrdered = query(documentsQuery, orderBy("created_at", 'desc'));
 
         onSnapshot(documentsQueryOrdered, (snapshot) => {
             let documentList = [];
@@ -58,7 +58,7 @@ export default function Feed({ navigation }) {
             </View>
             <View style={styles.documentCardInfo}>
                 <Text style={styles.sector}>{item.sector}</Text>
-                <Text style={styles.name}>{formatLength(item.name, 25, true)}</Text>
+                <Text style={styles.name}>{formatLength(item.type + ' de ' + item.course, 25, true)}</Text>
                 <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                     <Text style={styles.course}>{item.course}</Text>
                     <Entypo name="dot-single" size={24} color={colors.charcoal} />
