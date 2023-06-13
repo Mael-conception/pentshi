@@ -6,7 +6,7 @@ import { TextInput } from 'react-native-paper';
 import colors from "../../styles/colors";
 import { StatusBar } from "expo-status-bar";
 import { useValidation } from 'react-native-form-validator';
-
+import Dropdown from 'react-native-input-select';
 
 export default function Create({ navigation, route }) {
     const { url, fileType } = route.params;
@@ -16,17 +16,18 @@ export default function Create({ navigation, route }) {
     const [faculty, setFaculty] = useState('');
     const [departement, setDepartement] = useState('');
     const [sector, setSector] = useState('');
-    const [university, setUniversity] = useState('Unilu');
+    const [university, setUniversity] = useState('');
+    const [promotion, setPromotion] = useState('');
 
     const ref_course = useRef();
     const ref_faculty = useRef();
     const ref_departement = useRef();
     const ref_sector = useRef();
-    const ref_university = useRef();
+    const ref_promotion = useRef();
 
-    const { validate, isFieldInError, getErrorsInField, isFormValid } =
+    const { validate, isFieldInError, getErrorsInField } =
         useValidation({
-            state: { course, faculty, departement, sector, university, type },
+            state: { course, faculty, departement, sector, university, type, promotion },
             deviceLocale: 'fr'
         });
 
@@ -36,12 +37,12 @@ export default function Create({ navigation, route }) {
             faculty: { minlength: 3, maxlength: 25, required: true },
             departement: { minlength: 3, maxlength: 25, required: true },
             sector: { minlength: 3, maxlength: 25 },
-            university: { minlength: 3, maxlength: 25, required: true },
-            type: { minlength: 3, maxlength: 25, required: true }
+            university: { required: true },
+            type: { required: true },
+            promotion: { required: true },
         });
 
         if (isValid) {
-            alert('valid form');
             addDocument();
         }
     };
@@ -51,12 +52,13 @@ export default function Create({ navigation, route }) {
         const documentDb = collection(db, "documents");
 
         addDoc(documentDb, {
-            course: course,
-            faculty: faculty,
-            departement: departement,
-            sector: sector,
-            university: university,
-            type: type,
+            course,
+            faculty,
+            departement,
+            sector,
+            university,
+            type,
+            promotion,
             url,
             fileType,
             created_at: new Date()
@@ -70,22 +72,73 @@ export default function Create({ navigation, route }) {
             <StatusBar barStyle="light-content" backgroundColor={colors.chamoisee} />
             <Text style={styles.title}>Compléter les infos du document</Text>
 
-            <TextInput
-                label="Type de l'épreuve"
-                value={type}
-                style={styles.inputText}
-                onChangeText={setType}
-                keyboardType='ascii-capable'
-                returnKeyType="next"
-                onSubmitEditing={() => ref_course.current.focus()}
-                blurOnSubmit={false}
+            <Dropdown
+                label="Université"
+                placeholder="Choisi une option..."
+                options={[
+                    { name: 'Unilu', code: 'Unilu' }
+                ]}
+                optionLabel={'name'}
+                optionValue={'code'}
+                selectedValue={university}
+                onValueChange={(value) => setUniversity(value)}
+                primaryColor={colors.gray}
+                dropdownStyle={{ margin: 0, borderWidth: 0 }}
+                labelStyle={{ color: colors.gunmetal, fontWeight: '500' }}
             />
-            <View style={styles.errorBox}>
-                {isFieldInError('type') &&
-                    getErrorsInField('type').map(errorMessage => (
-                        <Text style={styles.errorText}>{errorMessage}</Text>
-                    ))}
-            </View>
+
+            {isFieldInError('university') &&
+                getErrorsInField('university').map(errorMessage => (
+                    <Text style={styles.errorText}>{errorMessage}</Text>
+                ))}
+
+            <Dropdown
+                label="Type de l'épreuve"
+                placeholder="Choisi une option..."
+                options={[
+                    { name: 'Examen', code: 'Examen' },
+                    { name: 'Interrogation', code: 'Interrogation' },
+                    { name: 'TP', code: 'TP' },
+                    { name: 'TD', code: 'TD' },
+                    { name: 'TPE', code: 'TPE' },
+                ]}
+                optionLabel={'name'}
+                optionValue={'code'}
+                selectedValue={type}
+                onValueChange={(value) => setType(value)}
+                primaryColor={colors.gray}
+                dropdownStyle={{ margin: 0, borderWidth: 0 }}
+                labelStyle={{ color: colors.gunmetal, fontWeight: '500' }}
+            />
+
+            {isFieldInError('type') &&
+                getErrorsInField('type').map(errorMessage => (
+                    <Text style={styles.errorText}>{errorMessage}</Text>
+                ))}
+
+            <Dropdown
+                label="Promotion"
+                placeholder="Choisi une option..."
+                options={[
+                    { name: 'Préparatoire', code: 'Préparatoire' },
+                    { name: 'Bac 1', code: 'Bac 1' },
+                    { name: 'Bac 2', code: 'Bac 2' },
+                    { name: 'Bac 3', code: 'Bac 3' },
+                    { name: 'Master 1', code: 'Master 1' },
+                    { name: 'Master 2', code: 'Master 2' },
+                ]}
+                optionLabel={'name'}
+                optionValue={'code'}
+                selectedValue={promotion}
+                onValueChange={(value) => setPromotion(value)}
+                primaryColor={colors.gray}
+                dropdownStyle={{ margin: 0, borderWidth: 0 }}
+                labelStyle={{ color: colors.gunmetal, fontWeight: '500' }}
+            />
+            {isFieldInError('promotion') &&
+                getErrorsInField('promotion').map(errorMessage => (
+                    <Text style={styles.errorText}>{errorMessage}</Text>
+                ))}
 
             <TextInput
                 label="Nom du cours"
@@ -97,12 +150,10 @@ export default function Create({ navigation, route }) {
                 blurOnSubmit={false}
                 onSubmitEditing={() => ref_faculty.current.focus()}
             />
-            <View style={styles.errorBox}>
-                {isFieldInError('course') &&
-                    getErrorsInField('course').map(errorMessage => (
-                        <Text style={styles.errorText}>{errorMessage}</Text>
-                    ))}
-            </View>
+            {isFieldInError('course') &&
+                getErrorsInField('course').map(errorMessage => (
+                    <Text style={styles.errorText}>{errorMessage}</Text>
+                ))}
 
             <TextInput
                 label="Faculté"
@@ -114,12 +165,10 @@ export default function Create({ navigation, route }) {
                 blurOnSubmit={false}
                 onSubmitEditing={() => ref_departement.current.focus()}
             />
-            <View style={styles.errorBox}>
-                {isFieldInError('faculty') &&
-                    getErrorsInField('faculty').map(errorMessage => (
-                        <Text style={styles.errorText}>{errorMessage}</Text>
-                    ))}
-            </View>
+            {isFieldInError('faculty') &&
+                getErrorsInField('faculty').map(errorMessage => (
+                    <Text style={styles.errorText}>{errorMessage}</Text>
+                ))}
 
             <TextInput
                 label="Département"
@@ -131,12 +180,10 @@ export default function Create({ navigation, route }) {
                 blurOnSubmit={false}
                 onSubmitEditing={() => ref_sector.current.focus()}
             />
-            <View style={styles.errorBox}>
-                {isFieldInError('departement') &&
-                    getErrorsInField('departement').map(errorMessage => (
-                        <Text style={styles.errorText}>{errorMessage}</Text>
-                    ))}
-            </View>
+            {isFieldInError('departement') &&
+                getErrorsInField('departement').map(errorMessage => (
+                    <Text style={styles.errorText}>{errorMessage}</Text>
+                ))}
 
             <TextInput
                 label="Filière"
@@ -144,9 +191,8 @@ export default function Create({ navigation, route }) {
                 style={styles.inputText}
                 onChangeText={setSector}
                 ref={ref_sector}
-                returnKeyType="next"
-                blurOnSubmit={false}
-                onSubmitEditing={() => ref_university.current.focus()}
+                returnKeyType="done"
+                onSubmitEditing={_onPressButton}
             />
             <View style={styles.errorBox}>
                 {isFieldInError('sector') &&
@@ -154,23 +200,6 @@ export default function Create({ navigation, route }) {
                         <Text style={styles.errorText}>{errorMessage}</Text>
                     ))}
             </View>
-
-            <TextInput
-                label="Université"
-                value={university}
-                style={styles.inputText}
-                onChangeText={setUniversity}
-                ref={ref_university}
-                returnKeyType="done"
-            />
-            <View style={styles.errorBox}>
-                {isFieldInError('university') &&
-                    getErrorsInField('university').map(errorMessage => (
-                        <Text style={styles.errorText}>{errorMessage}</Text>
-                    ))}
-            </View>
-
-            {/* <Text>{getErrorMessages()}</Text> */}
 
             <TouchableOpacity
                 onPress={_onPressButton}
@@ -212,10 +241,8 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         color: colors.white
     },
-    errorBox: {
-        paddingVertical: 10
-    },
     errorText: {
-        color: colors.warning
+        color: colors.warning,
+        paddingBottom: 10
     }
 });

@@ -6273,6 +6273,11 @@ react-native-gradle-plugin@^0.71.18:
   resolved "https://registry.yarnpkg.com/react-native-gradle-plugin/-/react-native-gradle-plugin-0.71.18.tgz#20ef199bc85be32e45bb6cc069ec2e7dcb1a74a6"
   integrity sha512-7F6bD7B8Xsn3JllxcwHhFcsl9aHIig47+3eN4IHFNqfLhZr++3ElDrcqfMzugM+niWbaMi7bJ0kAkAL8eCpdWg==
 
+react-native-input-select@^0.33.0:
+  version "0.33.0"
+  resolved "https://registry.yarnpkg.com/react-native-input-select/-/react-native-input-select-0.33.0.tgz#9def7a43939397c5f4a1455a8860c4acbe1d5a1e"
+  integrity sha512-6e3uRi8WQmGAWFQ+M2GWneu8oTgJGMWa4kvFRFn+LhsbnFfYAMf6CjDEc1lMkSoLckCk9rrGTzdMIHXtcinAtg==
+
 react-native-paper@^5.8.0:
   version "5.8.0"
   resolved "https://registry.yarnpkg.com/react-native-paper/-/react-native-paper-5.8.0.tgz#ac6b98a9d8fe96d959d2a6a92454e10626177970"

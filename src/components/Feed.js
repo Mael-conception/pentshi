@@ -62,7 +62,7 @@ export default function Feed({ navigation }) {
                 <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                     <Text style={styles.course}>{item.course}</Text>
                     <Entypo name="dot-single" size={24} color={colors.charcoal} />
-                    <Text style={styles.type}>{item.type}</Text>
+                    <Text style={styles.type}>{item.promotion}</Text>
                 </View>
             </View>
         </TouchableOpacity>
