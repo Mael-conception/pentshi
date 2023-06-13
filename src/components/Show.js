@@ -15,9 +15,9 @@ export default function Show({ navigation, route }) {
         <View style={styles.container}>
             <StatusBar barStyle="light-content" backgroundColor={colors.chamoisee} />
             <ScrollView>
-                <Text style={styles.appName}>{document.name} </Text>
+                <Text style={styles.appName}>{document.type} </Text>
                 <Text style={styles.appIntro}>
-                    {document.course}
+                    {document.course} - {document.promotion}
                 </Text>
 
                 <DataTable style={styles.table}>
@@ -28,8 +28,14 @@ export default function Show({ navigation, route }) {
                         </DataTable.Cell>
                     </DataTable.Row>
                     <DataTable.Row style={styles.tableRow}>
+                        <DataTable.Title>Promotion</DataTable.Title>
+                        <DataTable.Cell>
+                            {document.promotion}
+                        </DataTable.Cell>
+                    </DataTable.Row>
+                    <DataTable.Row style={styles.tableRow}>
                         <DataTable.Title>Filière</DataTable.Title>
-                        <DataTable.Cell>{document.sector}</DataTable.Cell>
+                        <DataTable.Cell>{document.sector ?? '-'}</DataTable.Cell>
                     </DataTable.Row>
                     <DataTable.Row style={styles.tableRow}>
                         <DataTable.Title>Département</DataTable.Title>

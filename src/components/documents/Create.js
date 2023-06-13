@@ -23,7 +23,6 @@ export default function Create({ navigation, route }) {
     const ref_faculty = useRef();
     const ref_departement = useRef();
     const ref_sector = useRef();
-    const ref_promotion = useRef();
 
     const { validate, isFieldInError, getErrorsInField } =
         useValidation({
@@ -83,7 +82,7 @@ export default function Create({ navigation, route }) {
                 selectedValue={university}
                 onValueChange={(value) => setUniversity(value)}
                 primaryColor={colors.gray}
-                dropdownStyle={{ margin: 0, borderWidth: 0 }}
+                dropdownStyle={{ margin: 0, borderWidth: 0, backgroundColor: colors.gray }}
                 labelStyle={{ color: colors.gunmetal, fontWeight: '500' }}
             />
 
@@ -107,7 +106,7 @@ export default function Create({ navigation, route }) {
                 selectedValue={type}
                 onValueChange={(value) => setType(value)}
                 primaryColor={colors.gray}
-                dropdownStyle={{ margin: 0, borderWidth: 0 }}
+                dropdownStyle={{ margin: 0, borderWidth: 0, backgroundColor: colors.gray }}
                 labelStyle={{ color: colors.gunmetal, fontWeight: '500' }}
             />
 
@@ -132,7 +131,7 @@ export default function Create({ navigation, route }) {
                 selectedValue={promotion}
                 onValueChange={(value) => setPromotion(value)}
                 primaryColor={colors.gray}
-                dropdownStyle={{ margin: 0, borderWidth: 0 }}
+                dropdownStyle={{ margin: 0, borderWidth: 0, backgroundColor: colors.gray }}
                 labelStyle={{ color: colors.gunmetal, fontWeight: '500' }}
             />
             {isFieldInError('promotion') &&
@@ -140,6 +139,7 @@ export default function Create({ navigation, route }) {
                     <Text style={styles.errorText}>{errorMessage}</Text>
                 ))}
 
+            <Text style={[styles.labelText, {marginTop: 0}]}>Cours</Text>
             <TextInput
                 label="Nom du cours"
                 value={course}
@@ -155,8 +155,9 @@ export default function Create({ navigation, route }) {
                     <Text style={styles.errorText}>{errorMessage}</Text>
                 ))}
 
+            <Text style={styles.labelText}>Faculté</Text>
             <TextInput
-                label="Faculté"
+                label="Faculté..."
                 value={faculty}
                 style={styles.inputText}
                 onChangeText={setFaculty}
@@ -170,8 +171,9 @@ export default function Create({ navigation, route }) {
                     <Text style={styles.errorText}>{errorMessage}</Text>
                 ))}
 
+            <Text style={styles.labelText}>Département</Text>
             <TextInput
-                label="Département"
+                label="Département..."
                 value={departement}
                 style={styles.inputText}
                 onChangeText={setDepartement}
@@ -185,8 +187,9 @@ export default function Create({ navigation, route }) {
                     <Text style={styles.errorText}>{errorMessage}</Text>
                 ))}
 
+            <Text style={styles.labelText}>Filière</Text>
             <TextInput
-                label="Filière"
+                label="Filière..."
                 value={sector}
                 style={styles.inputText}
                 onChangeText={setSector}
@@ -225,8 +228,12 @@ const styles = StyleSheet.create({
         color: colors.gunmetal,
         textAlign: 'center'
     },
+    labelText: {
+        marginVertical: 10,
+    },
     inputText: {
-        marginBottom: 5
+        marginBottom: 5,
+        backgroundColor: colors.gray,
     },
     actionBtn: {
         backgroundColor: colors.chamoisee,

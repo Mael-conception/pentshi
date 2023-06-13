@@ -21,14 +21,14 @@ export default function Feed({ navigation }) {
             position: 1,
             color: colors.charcoal,
         },
-        {
-            text: "WORD",
-            icon: <FontAwesome name="file-word-o" size={20} color={colors.white} />,
-            name: "application/msword",
-            position: 2,
-            color: colors.charcoal,
+        // {
+        //     text: "WORD",
+        //     icon: <FontAwesome name="file-word-o" size={20} color={colors.white} />,
+        //     name: "application/msword",
+        //     position: 2,
+        //     color: colors.charcoal,
 
-        },
+        // },
     ];
 
     useEffect(() => {
