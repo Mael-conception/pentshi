@@ -13,6 +13,11 @@
     "production": {}
   },
   "submit": {
-    "production": {}
+    "production": {
+      "android": {
+        "serviceAccountKeyPath": "/home/vanotis720/Documents/CODE/MAEL-CONCEPTION/KEYS/pentshi-goole-cloud-service/pc-api-8441415695321219599-160-8b288c9fac70.json",
+        "track": "production"
+      }
+    }
   }
 }
