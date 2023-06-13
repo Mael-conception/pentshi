@@ -1,111 +1,192 @@
 import { collection, addDoc } from "firebase/firestore";
-import React, { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useRef, useState } from "react";
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { db } from "../../config/firebase";
 import { TextInput } from 'react-native-paper';
 import colors from "../../styles/colors";
 import { StatusBar } from "expo-status-bar";
+import { useValidation } from 'react-native-form-validator';
+
 
 export default function Create({ navigation, route }) {
     const { url, fileType } = route.params;
-    const [document, setDocument] = useState({
-        name: '',
-        course: '',
-        faculty: '',
-        departement: '',
-        sector: '',
-        university: '',
-        type: '',
-        url: url,
-        fileType: fileType
-    });
+
+    const [type, setType] = useState('');
+    const [course, setCourse] = useState('');
+    const [faculty, setFaculty] = useState('');
+    const [departement, setDepartement] = useState('');
+    const [sector, setSector] = useState('');
+    const [university, setUniversity] = useState('Unilu');
+
+    const ref_course = useRef();
+    const ref_faculty = useRef();
+    const ref_departement = useRef();
+    const ref_sector = useRef();
+    const ref_university = useRef();
+
+    const { validate, isFieldInError, getErrorsInField, isFormValid } =
+        useValidation({
+            state: { course, faculty, departement, sector, university, type },
+            deviceLocale: 'fr'
+        });
+
+    const _onPressButton = () => {
+        const isValid = validate({
+            course: { minlength: 3, maxlength: 25, required: true },
+            faculty: { minlength: 3, maxlength: 25, required: true },
+            departement: { minlength: 3, maxlength: 25, required: true },
+            sector: { minlength: 3, maxlength: 25 },
+            university: { minlength: 3, maxlength: 25, required: true },
+            type: { minlength: 3, maxlength: 25, required: true }
+        });
+
+        if (isValid) {
+            alert('valid form');
+            addDocument();
+        }
+    };
 
     function addDocument() {
+
         const documentDb = collection(db, "documents");
+
         addDoc(documentDb, {
-            name: document.name,
-            course: document.course,
-            faculty: document.faculty,
-            departement: document.departement,
-            sector: document.sector,
-            university: document.university,
-            type: document.type,
-            url: document.url,
-            fileType: document.fileType
+            course: course,
+            faculty: faculty,
+            departement: departement,
+            sector: sector,
+            university: university,
+            type: type,
+            url,
+            fileType,
+            created_at: Date()
         });
 
         navigation.navigate("Feed");
     }
 
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
             <StatusBar barStyle="light-content" backgroundColor={colors.chamoisee} />
             <Text style={styles.title}>Compléter les infos du document</Text>
 
             <TextInput
-                type="outlined"
-                label="nom du fichier"
-                value={document.name}
+                label="Type de l'épreuve"
+                value={type}
                 style={styles.inputText}
-                onChangeText={text => setDocument({ ...document, name: text })}
+                onChangeText={setType}
+                keyboardType='ascii-capable'
+                returnKeyType="next"
+                onSubmitEditing={() => ref_course.current.focus()}
+                blurOnSubmit={false}
             />
+            <View style={styles.errorBox}>
+                {isFieldInError('type') &&
+                    getErrorsInField('type').map(errorMessage => (
+                        <Text style={styles.errorText}>{errorMessage}</Text>
+                    ))}
+            </View>
 
             <TextInput
-                label="nom du courslogique de pro"
-                value={document.course}
+                label="Nom du cours"
+                value={course}
                 style={styles.inputText}
-                onChangeText={text => setDocument({ ...document, course: text })}
+                onChangeText={setCourse}
+                ref={ref_course}
+                returnKeyType="next"
+                blurOnSubmit={false}
+                onSubmitEditing={() => ref_faculty.current.focus()}
             />
+            <View style={styles.errorBox}>
+                {isFieldInError('course') &&
+                    getErrorsInField('course').map(errorMessage => (
+                        <Text style={styles.errorText}>{errorMessage}</Text>
+                    ))}
+            </View>
 
             <TextInput
-                label="Faculte"
-                value={document.faculty}
+                label="Faculté"
+                value={faculty}
                 style={styles.inputText}
-                onChangeText={text => setDocument({ ...document, faculty: text })}
+                onChangeText={setFaculty}
+                ref={ref_faculty}
+                returnKeyType="next"
+                blurOnSubmit={false}
+                onSubmitEditing={() => ref_departement.current.focus()}
             />
+            <View style={styles.errorBox}>
+                {isFieldInError('faculty') &&
+                    getErrorsInField('faculty').map(errorMessage => (
+                        <Text style={styles.errorText}>{errorMessage}</Text>
+                    ))}
+            </View>
 
             <TextInput
-                label="Departement"
-                value={document.departement}
+                label="Département"
+                value={departement}
                 style={styles.inputText}
-                onChangeText={text => setDocument({ ...document, departement: text })}
+                onChangeText={setDepartement}
+                ref={ref_departement}
+                returnKeyType="next"
+                blurOnSubmit={false}
+                onSubmitEditing={() => ref_sector.current.focus()}
             />
+            <View style={styles.errorBox}>
+                {isFieldInError('departement') &&
+                    getErrorsInField('departement').map(errorMessage => (
+                        <Text style={styles.errorText}>{errorMessage}</Text>
+                    ))}
+            </View>
 
             <TextInput
-                label="Filiere"
-                value={document.sector}
+                label="Filière"
+                value={sector}
                 style={styles.inputText}
-                onChangeText={text => setDocument({ ...document, sector: text })}
+                onChangeText={setSector}
+                ref={ref_sector}
+                returnKeyType="next"
+                blurOnSubmit={false}
+                onSubmitEditing={() => ref_university.current.focus()}
             />
+            <View style={styles.errorBox}>
+                {isFieldInError('sector') &&
+                    getErrorsInField('sector').map(errorMessage => (
+                        <Text style={styles.errorText}>{errorMessage}</Text>
+                    ))}
+            </View>
 
             <TextInput
-                label="universite"
-                value={document.university}
+                label="Université"
+                value={university}
                 style={styles.inputText}
-                onChangeText={text => setDocument({ ...document, university: text })}
+                onChangeText={setUniversity}
+                ref={ref_university}
+                returnKeyType="done"
             />
+            <View style={styles.errorBox}>
+                {isFieldInError('university') &&
+                    getErrorsInField('university').map(errorMessage => (
+                        <Text style={styles.errorText}>{errorMessage}</Text>
+                    ))}
+            </View>
 
-            <TextInput
-                label="Type de document"
-                value={document.type}
-                style={styles.inputText}
-                onChangeText={text => setDocument({ ...document, type: text })}
-            />
+            {/* <Text>{getErrorMessages()}</Text> */}
 
             <TouchableOpacity
-                onPress={addDocument}
+                onPress={_onPressButton}
                 style={styles.actionBtn}
             >
                 <Text style={styles.actionBtnText}>Confirmer</Text>
             </TouchableOpacity>
-        </View>
+        </ScrollView>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 20,
+        paddingHorizontal: 20,
+        paddingTop: 15,
         backgroundColor: colors.white
     },
     title: {
@@ -123,7 +204,7 @@ const styles = StyleSheet.create({
         height: 50,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 25,
+        marginVertical: 25,
         borderRadius: 5
     },
     actionBtnText: {
@@ -131,4 +212,10 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         color: colors.white
     },
+    errorBox: {
+        paddingVertical: 10
+    },
+    errorText: {
+        color: colors.warning
+    }
 });
