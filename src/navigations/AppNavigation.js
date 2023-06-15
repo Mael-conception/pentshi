@@ -4,6 +4,7 @@ import Create from '../components/documents/Create';
 import UploadFile from '../components/documents/UploadFile';
 import Feed from '../components/Feed';
 import Reader from '../components/Reader';
+import Viewer from '../components/Viewer';
 import ScanScreen from '../components/scanner/ScanScreen';
 import Show from '../components/Show';
 import colors from '../styles/colors';
@@ -60,6 +61,13 @@ function AppNavigation() {
                 <Stack.Screen
                     name="Reader"
                     component={Reader}
+                    options={({ route }) => ({
+                        title: route.params.name,
+                    })}
+                />
+                <Stack.Screen
+                    name="Viewer"
+                    component={Viewer}
                     options={({ route }) => ({
                         title: route.params.name,
                     })}

@@ -3,13 +3,10 @@ import { StyleSheet, Text, TouchableOpacity, View, ScrollView, StatusBar } from 
 import colors from "../styles/colors";
 import { DataTable } from 'react-native-paper';
 
-const optionsPerPage = [2, 3, 4];
-
-
 export default function Show({ navigation, route }) {
 
     const { document } = route.params;
-
+    const reader = (document.fileType != 'images') ? 'Reader' : 'Viewer';
 
     return (
         <View style={styles.container}>
@@ -57,7 +54,7 @@ export default function Show({ navigation, route }) {
 
                 <TouchableOpacity
                     onPress={() => {
-                        navigation.navigate("Reader", { "url": document.url, "name": document.name })
+                        navigation.navigate(reader, { "url": document.url, "name": document.name })
                     }}
                     style={styles.actionBtn}
                 >
