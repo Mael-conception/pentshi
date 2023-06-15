@@ -4,6 +4,7 @@ import Create from '../components/documents/Create';
 import UploadFile from '../components/documents/UploadFile';
 import Feed from '../components/Feed';
 import Reader from '../components/Reader';
+import ScanScreen from '../components/scanner/ScanScreen';
 import Show from '../components/Show';
 import colors from '../styles/colors';
 
@@ -33,6 +34,13 @@ function AppNavigation() {
                     component={UploadFile}
                     options={{
                         title: 'Téléverser le fichier',
+                    }}
+                />
+                <Stack.Screen
+                    name="Scan"
+                    component={ScanScreen}
+                    options={{
+                        title: 'Scanner le document',
                     }}
                 />
                 <Stack.Screen

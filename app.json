@@ -15,7 +15,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.vanotis720.pentshi"
     },
     "android": {
       "package": "com.vanotis720.pentshi",
@@ -33,6 +34,12 @@
         "expo-document-picker",
         {
           "iCloudContainerEnvironment": "Production"
+        }
+      ],
+      [
+        "react-native-document-scanner-plugin",
+        {
+          "cameraPermission": "Nous avons besoin d'un accès à la caméra pour que vous puissiez numériser des documents"
         }
       ]
     ],

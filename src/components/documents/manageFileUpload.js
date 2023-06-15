@@ -1,19 +1,19 @@
-import { getStorage, ref, uploadBytesResumable, getDownloadURL} from "firebase/storage";
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 const manageFileUpload = async (
-    fileBlob, fileType, file, 
+    fileBlob, fileType = null,
     { onStart, onProgress, onComplete, onFail }
 ) => {
 
     const storage = getStorage();
 
-    const storageRef = ref(storage, `/documents/${+ new Date().getTime() + file.name}`);
+    const storageRef = ref(storage, `/documents/${+ new Date().getTime()}`);
 
     console.log("uploading file");
 
     // Create file metadata including the content type
     const metadata = {
-        contentType: fileType,
+        contentType: fileBlob.type,
     };
 
     // Trigger file upload start event

@@ -3,16 +3,12 @@ import { ActivityIndicator, StatusBar, StyleSheet, Text, TouchableOpacity, useWi
 import * as DocumentPicker from 'expo-document-picker';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import colors from "../../styles/colors";
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-
 import manageFileUpload from "./manageFileUpload";
 import getBlobFromUri from "./getBlobFromUri";
 
 export default function UploadFile({ navigation, route }) {
     const { fileType } = route.params;
     const [file, setFile] = useState(null);
-    const [uploadInProgress, setUploadInProgress] = useState(false);
-    const storage = getStorage();
 
     const [isUploading, setIsUploading] = React.useState(false);
     const [progress, setProgress] = React.useState(0);
@@ -29,26 +25,6 @@ export default function UploadFile({ navigation, route }) {
             setFile(result);
         }
     };
-
-    uploadToCloud = () => {
-
-        const storageRef = ref(storage, `/documents/${file.name}`);
-        const uploadTask = uploadBytesResumable(storageRef, result);
-
-        setUploadInProgress(true);
-        uploadTask.on(
-            "state_changed",
-            null,
-            (err) => console.log(err),
-            () => {
-                getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-                    console.log('url', url);
-                    setUploadInProgress(false);
-                    navigation.navigate("FileInfos", { url, fileType });
-                });
-            }
-        );
-    }
 
     const onStart = () => {
         setIsUploading(true);
@@ -75,7 +51,7 @@ export default function UploadFile({ navigation, route }) {
 
         const blob = await getBlobFromUri(file.uri);
 
-        await manageFileUpload(blob, fileType, file, { onStart, onProgress, onComplete, onFail });
+        await manageFileUpload(blob, fileType, { onStart, onProgress, onComplete, onFail });
     };
 
     if (file === null) {

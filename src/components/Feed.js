@@ -5,7 +5,7 @@ import { ActivityIndicator, FlatList, StatusBar, StyleSheet, Text, TextInput, To
 import { db } from "../config/firebase";
 import colors from "../styles/colors";
 import { FloatingAction } from "react-native-floating-action";
-import { FontAwesome, MaterialIcons, Entypo } from '@expo/vector-icons';
+import { FontAwesome, MaterialIcons, Entypo, Ionicons } from '@expo/vector-icons';
 import { formatLength } from '../utils/helpers';
 
 export default function Feed({ navigation }) {
@@ -21,14 +21,13 @@ export default function Feed({ navigation }) {
             position: 1,
             color: colors.charcoal,
         },
-        // {
-        //     text: "WORD",
-        //     icon: <FontAwesome name="file-word-o" size={20} color={colors.white} />,
-        //     name: "application/msword",
-        //     position: 2,
-        //     color: colors.charcoal,
-
-        // },
+        {
+            text: "Scanner",
+            icon: <Ionicons name="md-scan" size={20} color={colors.white} />,
+            name: "scan",
+            position: 2,
+            color: colors.charcoal,
+        },
     ];
 
     useEffect(() => {
@@ -75,6 +74,17 @@ export default function Feed({ navigation }) {
         </View>
     )
 
+    function actionClicked(type) {
+        if (type == 'application/pdf') {
+            navigation.navigate('UploadFile', {
+                fileType: type,
+            });
+        }
+        else if (type == 'scan') {
+            navigation.navigate('Scan');
+        }
+    }
+
     return (
         <View style={styles.container}>
             <StatusBar barStyle="light-content" backgroundColor={colors.chamoisee} />
@@ -107,9 +117,7 @@ export default function Feed({ navigation }) {
                 buttonSize={60}
                 onPressItem={name => {
                     console.log(`selected button: ${name}`);
-                    navigation.navigate('UploadFile', {
-                        fileType: name,
-                    })
+                    actionClicked(name);
                 }}
             />
         </View>
